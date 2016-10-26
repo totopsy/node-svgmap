@@ -1,0 +1,24 @@
+{
+  "name": "node-svg2json",
+  "version": "1.0.0",
+  "description": "Simple SVG to JSON converter.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/icareus/node-svg2json.git"
+  },
+  "keywords": [
+    "svg",
+    "xml",
+    "json"
+  ],
+  "author": "ubarbaxor",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/icareus/node-svg2json/issues"
+  },
+  "homepage": "https://github.com/icareus/node-svg2json#readme"
+}

@@ -23,7 +23,7 @@ const getRelPath = path => path.replace(Path.dirname(toTest) + Path.sep, '')
 // Constants
 const STANDALONE = !module.parent // Falsy if imported
 const EXT = '.svg'
-const OUT = `${EXT}.json`
+const OUT = `${EXT.substring(1)}.json`
 const toTest = `${Path.resolve(process.argv[2])}${Path.sep}`
 
 // Object helper
@@ -80,5 +80,5 @@ checkFile(toTest)
 setTimeout(() => {
   log(`Found ${FILES} ${EXT} files in ${DIRS} directories`)
   log(`Writing output to ${OUT}`)
-  Fs.writeFileSync("./output.JSON", JSON.stringify(toJSON))},
+  Fs.writeFileSync(OUT, JSON.stringify(toJSON))},
 200)

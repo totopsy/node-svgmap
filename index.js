@@ -31,7 +31,7 @@ const assocPath = (target, path, file) => {
     }
     ref = ref[key]
   })
-  ref[file] = Fs.readFileSync(path, 'UTF-8')
+  ref[Path.basename(file, EXT)] = Fs.readFileSync(path, 'UTF-8')
 }
 
 nlog(

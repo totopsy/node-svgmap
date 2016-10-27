@@ -1,9 +1,11 @@
 #!/usr/local/bin/node
 
+// return value
+let toJSON = {}
+
 // Deps and imports
 const Fs = require('fs')
 const Path = require('path')
-const R = require('ramda')
 
 // Generic helpers
 const log = x => (console.log(x), x)
@@ -12,15 +14,25 @@ const rlog = err => log(err.message)
 const genericCallback = (err, res) => log(err ? err.message : res)
 
 // file helpers
+const getRelPath = path => path.replace(Path.dirname(toTest) + Path.sep, '')
 
 // Constants
 const STANDALONE = !module.parent // Falsy if imported
 const EXT = '.svg'
-
-if (STANDALONE) {
-  log('Detected being called as standalone script.')
-}
 const toTest = `${Path.resolve(process.argv[2])}${Path.sep}`
+
+// Object helper
+const assocPath = (target, path, file) => {
+  let objPath = Path.dirname(getRelPath(path)).split(Path.sep)
+  let ref = target
+  objPath.forEach(key => {
+    if (!ref[key]) {
+      ref[key] = {}
+    }
+    ref = ref[key]
+  })
+  ref[file] = Fs.readFileSync(path, 'UTF-8')
+}
 
 nlog(
   `Running in ${Path.resolve('.')}`,
@@ -34,20 +46,13 @@ const doDir = dirPath => {
         log(err);
         return err
       } else if (res.length) {
-        // log(`${res} will now be checked`)
         res.forEach(fileName => checkFile(Path.resolve(Path.join(dirPath, fileName))));
       }
     })
 }
 
-const doMatch = filePath => {
-  log(`Hit : ${
-    Path.basename(filePath)
-  } in ${
-    `${Path.dirname(filePath)}`.replace(Path.dirname(toTest) + Path.sep, '')
-  }`)
-  // Do the logic bitch !
-  
+const onMatch = filePath => {
+  assocPath(toJSON, filePath, Path.basename(filePath))
 }
 
 const checkFile = filePath => {
@@ -56,16 +61,13 @@ const checkFile = filePath => {
       if (err){
         log(err.message)
         return err
-      }
-      else if (res.isFile() && Path.extname(filePath) === EXT) {
-        doMatch(filePath)
+      } else if (res.isFile() && Path.extname(filePath) === EXT) {
+        onMatch(filePath)
       } else if (res.isDirectory()) {
-        // log(`${filePath} is a directory`)
         doDir(filePath)
-      } else {
-        // log(`File ${filePath}`, res)
       }
     })
 }
 
 checkFile(toTest)
+setTimeout(() => console.log(JSON.stringify(toJSON)), 200)

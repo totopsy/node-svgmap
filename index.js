@@ -7,6 +7,10 @@ let toJSON = {}
 const Fs = require('fs')
 const Path = require('path')
 
+// global counters
+let DIRS = 0
+let FILES = 0
+
 // Generic helpers
 const log = x => (console.log(x), x)
 const nlog = (...x) => (x.forEach(log), x[0])
@@ -19,14 +23,17 @@ const getRelPath = path => path.replace(Path.dirname(toTest) + Path.sep, '')
 // Constants
 const STANDALONE = !module.parent // Falsy if imported
 const EXT = '.svg'
+const OUT = `${EXT}.json`
 const toTest = `${Path.resolve(process.argv[2])}${Path.sep}`
 
 // Object helper
 const assocPath = (target, path, file) => {
+  FILES ++
   let objPath = Path.dirname(getRelPath(path)).split(Path.sep)
   let ref = target
   objPath.forEach(key => {
     if (!ref[key]) {
+      DIRS ++
       ref[key] = {}
     }
     ref = ref[key]
@@ -70,4 +77,8 @@ const checkFile = filePath => {
 }
 
 checkFile(toTest)
-setTimeout(() => console.log(JSON.stringify(toJSON)), 200)
+setTimeout(() => {
+  log(`Found ${FILES} ${EXT} files in ${DIRS} directories`)
+  log(`Writing output to ${OUT}`)
+  Fs.writeFileSync("./output.JSON", JSON.stringify(toJSON))},
+200)

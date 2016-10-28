@@ -85,4 +85,6 @@ const main = () => {
   200)
 }
 
+main()
+
 exports = main

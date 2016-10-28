@@ -24,7 +24,7 @@ const getRelPath = path => path.replace(Path.dirname(toTest) + Path.sep, '')
 const toTest = `${Path.resolve(process.argv[2])}${Path.sep}`
 const STANDALONE = !module.parent // Falsy if imported
 const EXT = '.svg'
-const OUT = `${Path.dirmame(toTest)}${Path.sep}${EXT.substring(1)}.json`
+const OUT = `${Path.dirname(toTest)}${Path.sep}${EXT.substring(1)}.json`
 
 // Object helper
 const assocPath = (target, path, file) => {

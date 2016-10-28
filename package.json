@@ -1,5 +1,5 @@
 {
-  "name": "node-svg2json",
+  "name": "node-svgmap",
   "version": "1.0.0",
   "description": "Simple SVG to JSON converter.",
   "main": "index.js",

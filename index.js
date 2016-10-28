@@ -23,7 +23,7 @@ const getRelPath = path => path.replace(Path.dirname(toTest) + Path.sep, '')
 // Constants
 const STANDALONE = !module.parent // Falsy if imported
 const EXT = '.svg'
-const OUT = `${EXT.substring(1)}.json`
+const OUT = `${Path.dirmame(toTest)}${Path.sep}${EXT.substring(1)}.json`
 const toTest = `${Path.resolve(process.argv[2])}${Path.sep}`
 
 // Object helper

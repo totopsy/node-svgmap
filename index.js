@@ -76,9 +76,13 @@ const checkFile = filePath => {
     })
 }
 
-checkFile(toTest)
-setTimeout(() => {
-  log(`Found ${FILES} ${EXT} files in ${DIRS} directories`)
-  log(`Writing output to ${OUT}`)
-  Fs.writeFileSync(OUT, JSON.stringify(toJSON))},
-200)
+const main = () => {
+  checkFile(toTest)
+  setTimeout(() => {
+    log(`Found ${FILES} ${EXT} files in ${DIRS} directories`)
+    log(`Writing output to ${OUT}`)
+    Fs.writeFileSync(OUT, JSON.stringify(toJSON))},
+  200)
+}
+
+exports = main

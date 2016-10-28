@@ -1,7 +1,7 @@
 {
   "name": "node-svgmap",
   "version": "1.0.0",
-  "description": "Simple SVG to JSON converter.",
+  "description": "Simple SVG to JSON mapper.",
   "main": "index.js",
   "scripts": {
     "start": "node index.js",

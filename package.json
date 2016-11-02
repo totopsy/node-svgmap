@@ -9,7 +9,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/icareus/node-svg2json.git"
+    "url": "git+https://github.com/icareus/node-svgmap.git"
   },
   "keywords": [
     "svg",
@@ -19,7 +19,8 @@
   "author": "ubarbaxor",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/icareus/node-svg2json/issues"
+    "url": "https://github.com/icareus/node-svgmap/issues"
   },
-  "homepage": "https://github.com/icareus/node-svg2json#readme"
+  "homepage": "https://github.com/icareus/node-svgmap#readme",
+  "dependencies": {}
 }

@@ -18,7 +18,7 @@ const rlog = err => log(err.message)
 const genericCallback = (err, res) => log(err ? err.message : res)
 
 // file helpers
-const getRelPath = path => path.replace(Path.dirname(toTest) + Path.sep, '')
+const getRelPath = path => path.replace(toTest, '')
 
 // Constants
 const testPath = process.argv[2] || '.'
@@ -94,7 +94,7 @@ const checkFile = filePath => {
 // }
 
 const main = () => {
-  checkFile(toTest)
+  doDir(toTest)
   // setTimeout(() => {
     log(`Found ${FILES} ${EXT} files in ${DIRS} directories`)
     log(`Writing output to ${OUT}`)

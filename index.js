@@ -21,10 +21,11 @@ const genericCallback = (err, res) => log(err ? err.message : res)
 const getRelPath = path => path.replace(Path.dirname(toTest) + Path.sep, '')
 
 // Constants
-const toTest = `${Path.resolve(process.argv[2])}${Path.sep}`
+const testPath = process.argv[2] || '.'
+const toTest = `${Path.resolve(testPath)}${Path.sep}`
 const STANDALONE = !module.parent // Falsy if imported
 const EXT = '.svg'
-const OUT = `${Path.dirname(toTest)}${Path.sep}${EXT.substring(1)}.json`
+const OUT = `${toTest}${Path.sep}${EXT.substring(1)}.json`
 
 // Object helper
 const assocPath = (target, path, file) => {
@@ -43,19 +44,26 @@ const assocPath = (target, path, file) => {
 
 nlog(
   `Running in ${Path.resolve('.')}`,
-  `Mapping ${Path.resolve(process.argv[2])} for ${EXT} files`
+  `Mapping ${Path.resolve(testPath)} for ${EXT} files`
 )
 
+// const doDir = dirPath => {
+//   Fs.readdir(dirPath,
+//     (err, res) => {
+//       if (err) {
+//         log(err);
+//         return err
+//       } else if (res.length) {
+//         res.forEach(fileName => checkFile(Path.resolve(Path.join(dirPath, fileName))));
+//       }
+//     })
+// }
+
 const doDir = dirPath => {
-  Fs.readdir(dirPath,
-    (err, res) => {
-      if (err) {
-        log(err);
-        return err
-      } else if (res.length) {
-        res.forEach(fileName => checkFile(Path.resolve(Path.join(dirPath, fileName))));
-      }
-    })
+  const res = Fs.readdirSync(dirPath)
+  if (res.length) {
+    res.forEach(fileName => checkFile(Path.resolve(Path.join(dirPath, fileName))))
+  }
 }
 
 const onMatch = filePath => {
@@ -63,26 +71,36 @@ const onMatch = filePath => {
 }
 
 const checkFile = filePath => {
-  Fs.stat(filePath,
-    (err, res) => {
-      if (err){
-        log(err.message)
-        return err
-      } else if (res.isFile() && Path.extname(filePath) === EXT) {
-        onMatch(filePath)
-      } else if (res.isDirectory()) {
-        doDir(filePath)
-      }
-    })
+  const res = Fs.statSync(filePath)
+  if (res.isFile() && Path.extname(filePath) === EXT) {
+    onMatch(filePath)
+  } else if (res.isDirectory()) {
+    doDir(filePath)
+  }
 }
+//
+// const checkFile = filePath => {
+//   Fs.stat(filePath,
+//     (err, res) => {
+//       if (err){
+//         log(err.message)
+//         return err
+//       } else if (res.isFile() && Path.extname(filePath) === EXT) {
+//         onMatch(filePath)
+//       } else if (res.isDirectory()) {
+//         doDir(filePath)
+//       }
+//     })
+// }
 
 const main = () => {
   checkFile(toTest)
-  setTimeout(() => {
+  // setTimeout(() => {
     log(`Found ${FILES} ${EXT} files in ${DIRS} directories`)
     log(`Writing output to ${OUT}`)
-    Fs.writeFileSync(OUT, JSON.stringify(toJSON))},
-  200)
+    Fs.writeFileSync(OUT, JSON.stringify(toJSON))
+  // }
+  // ,200)
 }
 
 main()

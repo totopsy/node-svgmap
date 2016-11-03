@@ -1,5 +1,7 @@
 #!/usr/local/bin/node
 
+'use strict'
+
 // return value
 let toJSON = {}
 

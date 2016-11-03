@@ -25,7 +25,7 @@ const testPath = process.argv[2] || '.'
 const toTest = `${Path.resolve(testPath)}${Path.sep}`
 const STANDALONE = !module.parent // Falsy if imported
 const EXT = '.svg'
-const OUT = `${toTest}${Path.sep}${EXT.substring(1)}.json`
+const OUT = `${toTest}${EXT.substring(1)}.json`
 
 // Object helper
 const assocPath = (target, path, file) => {
